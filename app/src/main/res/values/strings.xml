@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SQlite Example</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="user_name">User Name</string>
+    <string name="pass">*********</string>
+    <string name="sign_up_Button">SIGN UP</string>
+    <string name="abc_xyz_com">abc@xyz.com</string>
+    <string name="add_user">Add User</string>
+    <string name="view_user">View User</string>
+    <string name="delete">Delete</string>
+    <string name="search">Search</string>
+</resources>
