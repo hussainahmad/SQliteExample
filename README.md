@@ -1,2 +1,2 @@
-# SQliteExample
-This Example demosnstrate how to use sql Database with Kotlin
+# Sqlite Example Using Kotlin
+This Example demonstrate how to use sql Database with Kotlin
