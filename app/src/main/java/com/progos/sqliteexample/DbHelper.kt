@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import com.progos.sqliteexample.DbHelper.Companion.Table_USER
 import org.jetbrains.anko.db.ManagedSQLiteOpenHelper
 
 /**
@@ -23,16 +24,14 @@ class DbHelper (ctx: Context) : ManagedSQLiteOpenHelper(ctx, "testing_db.db", nu
 
     //Creating Table
     val CREATE_TABLE = "CREATE TABLE if not exist " + Table_USER + "(" +
-            "${ID} integer PRIMARY KEY autoincrement," +
-            "${NAME} text," +
-            "${PASSWORD} text," +
-            "${EMAIL} text" +
+            "$ID integer PRIMARY KEY autoincrement," +
+            "$NAME text," +
+            "$PASSWORD text," +
+            "$EMAIL text" +
             ")"
 
     override fun onCreate(db: SQLiteDatabase?) {
-        if (db != null) {
-            db.execSQL(CREATE_TABLE)
-        }
+        db?.execSQL(CREATE_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -43,7 +42,7 @@ class DbHelper (ctx: Context) : ManagedSQLiteOpenHelper(ctx, "testing_db.db", nu
         values.put(NAME, name)
         values.put(PASSWORD,password)
         values.put(EMAIL,email)
-        return getWritableDatabase().insert(Table_USER,null,values)
+        return writableDatabase.insert(Table_USER,null,values)
     }
 
     //Getting all students list
