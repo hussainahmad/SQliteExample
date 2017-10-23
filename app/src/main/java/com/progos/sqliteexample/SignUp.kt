@@ -14,7 +14,7 @@ class SignUp : AppCompatActivity() {
 
 //    var userDbHelper: DbHelper? = null
 //    var sqLiteDatabase: SQLiteDatabase? = null
-val Context.database: DbHelper
+    val Context.database: DbHelper
     get() = DbHelper.getInstance(getApplicationContext())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
