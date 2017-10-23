@@ -4,92 +4,111 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.progos.sqliteexample.DbHelper.Companion.Table_USER
-import org.jetbrains.anko.db.ManagedSQLiteOpenHelper
+import android.util.Log
+import org.jetbrains.anko.db.*
 
 /**
  * Created by Hussain Sherwani
  * hussain.ahmed@progos.org
  * on 10/20/2017.
  */
-class DbHelper (ctx: Context) : ManagedSQLiteOpenHelper(ctx, "testing_db.db", null, 1)  {
+class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, DbHelper.DB_NAME, null, DbHelper.DB_VERSION) {
 
+//    companion object {
+//        val Table_USER: String = "TABLE_USER"
+//        val ID:String = "ID_"
+//        val NAME: String = "NAME"
+//        val PASSWORD:String = "PASSWORD"
+//        val EMAIL: String = "EMAIL"
+//    }
     companion object {
-        val Table_USER: String = "TABLE_USER"
-        val ID:String = "ID_"
-        val NAME: String = "NAME"
-        val PASSWORD:String = "PASSWORD"
-        val EMAIL: String = "EMAIL"
+    val DB_NAME = "user.db"
+    val DB_VERSION = 1
+        private var instance: DbHelper? = null
+        @Synchronized
+        fun getInstance(ctx: Context): DbHelper {
+            if (instance == null) {
+                instance = DbHelper(ctx.getApplicationContext())
+            }
+            return instance!!
+        }
     }
 
-    //Creating Table
-    val CREATE_TABLE = "CREATE TABLE if not exist " + Table_USER + "(" +
-            "$ID integer PRIMARY KEY autoincrement," +
-            "$NAME text," +
-            "$PASSWORD text," +
-            "$EMAIL text" +
-            ")"
+//    //Creating Table
+//    val CREATE_TABLE = "CREATE TABLE if not exists " + Table_USER + "(" +
+//            "$ID integer PRIMARY KEY autoincrement," +
+//            "$NAME text," +
+//            "$PASSWORD text," +
+//            "$EMAIL text" +
+//            ")"
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL(CREATE_TABLE)
+
+        db!!.createTable(User.Table_USER, true,
+                Pair(User.ID, INTEGER + PRIMARY_KEY + AUTOINCREMENT),
+//                User.ID to INTEGER + AUTOINCREMENT,
+                Pair(User.NAME, TEXT),
+                Pair(User.PASSWORD, TEXT),
+                Pair(User.EMAIL, TEXT))
+//        db.execSQL(CREATE_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        db!!.dropTable(User.Table_USER, true)
+        onCreate(db)
     }
 
-    fun insertData(name:String, password: String, email: String): Long {
+//     Access property for Context
+//    val Context.database: DbHelper
+//        get() = DbHelper.getInstance(getApplicationContext())
+
+    fun addInformation(name: String, password: String, email: String, db: SQLiteDatabase) {
+
+        db.insert(User.Table_USER, User.NAME to name, User.PASSWORD to password,
+                User.EMAIL to email)
+//        val values = ContentValues()
+//        values.put(User.NAME, name)
+//        values.put(User.PASSWORD, password)
+//        values.put(User.EMAIL, email)
+//
+//        db.insert(User.Table_USER, null, values)
+//        Log.i("DATABASE OPERATION", "One Row data inserted")
+
+    }
+
+    fun getInformation(db: SQLiteDatabase): Cursor {
+
+        val cursor: Cursor
+        val projection = arrayOf<String>(User.NAME, User.PASSWORD, User.EMAIL)
+        cursor = db.query(User.Table_USER, projection, null, null, null, null, null)
+        return cursor
+    }
+
+    fun getContact(username: String, db: SQLiteDatabase): Cursor {
+
+        val projection = arrayOf<String>(User.PASSWORD, User.EMAIL)
+        val selection = User.NAME + "=?"
+        val selectionArguments = arrayOf(username)
+        return db.query(User.Table_USER, projection, selection, selectionArguments, null, null, null)
+
+    }
+
+    fun deleteInformation(username: String, db: SQLiteDatabase) {
+        val selection = User.NAME + "= ?"
+        val selectionArguments = arrayOf(username)
+        db.delete(User.Table_USER, selection, selectionArguments)
+        Log.i("DataBase Operation", "Selected Row deleted from Database")
+    }
+
+    fun updateInformation(username: String, mobile: String, email: String, db: SQLiteDatabase) {
+
+        val selection = User.NAME + "=?"
+        val selectionArguments = arrayOf(username)
+        // New value for one column
         val values = ContentValues()
-        values.put(NAME, name)
-        values.put(PASSWORD,password)
-        values.put(EMAIL,email)
-        return writableDatabase.insert(Table_USER,null,values)
-    }
-
-    //Getting all students list
-    fun getAllStudentData(): MutableList<Student> {
-        val stuList: MutableList<Student> = mutableListOf<Student>()
-        val cursor: Cursor = getReadableDatabase().query(Table_USER, arrayOf(ID, NAME, PASSWORD, EMAIL), null, null, null, null, null)
-        try {
-            if (cursor.getCount() != 0) {
-                cursor.moveToFirst()
-                if (cursor.getCount() > 0) {
-                    do {
-                        val name: String = cursor.getString(cursor.getColumnIndex(NAME))
-                        val password: String = cursor.getString(cursor.getColumnIndex(PASSWORD))
-                        val email: String = cursor.getString(cursor.getColumnIndex(EMAIL))
-                        stuList.add(Student(name,password, email))
-                    } while ((cursor.moveToNext()))
-                }
-            }
-        } finally {
-            cursor.close()
-        }
-
-        return stuList
-    }
-
-    //Getting student/students data using where clause
-    fun getParticularStudentData(name: String): MutableList<Student> {
-        val stuList: MutableList<Student> = mutableListOf<Student>()
-        val db = this.readableDatabase
-        val selectQuery = "SELECT  * FROM " + Table_USER + " WHERE " + NAME + " = '" + name + "'"
-        val cursor = db.rawQuery(selectQuery, null)
-        try {
-            if (cursor.getCount() != 0) {
-                cursor.moveToFirst();
-                if (cursor.getCount() > 0) {
-                    do {
-                        val name: String = cursor.getString(cursor.getColumnIndex(NAME))
-                        val password: String = cursor.getString(cursor.getColumnIndex(PASSWORD))
-                        val email: String = cursor.getString(cursor.getColumnIndex(EMAIL))
-                        stuList.add(Student(name, password, email))
-                    } while ((cursor.moveToNext()));
-                }
-            }
-        } finally {
-            cursor.close();
-        }
-
-        return stuList
+        values.put(User.PASSWORD, mobile)
+        values.put(User.EMAIL, email)
+        db.update(User.Table_USER, values, selection, selectionArguments)
+        Log.i("DataBase Operation", "Selected Row Updated from Database")
     }
 }
