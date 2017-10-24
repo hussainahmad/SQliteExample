@@ -9,6 +9,9 @@
     <string name="view_user">View User</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>
-    <string name="enter_the_user_name_to_find">Enter the user name to find</string>
+    <string name="enter_the_user_name_to_find">Enter the User Name to find</string>
+    <string name="enter_the_user_name_to_delete">Enter the User Name to Delete</string>
+    <string name="enter_the_user_name_to_update">Enter the User Name to Update</string>
     <string name="back">Back</string>
+    <string name="update">Update</string>
 </resources>

@@ -3,24 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.progos.sqliteexample.DeleteUser">
+    tools:context="com.progos.sqliteexample.UpdateActivity">
 
     <EditText
-        android:id="@+id/delete_text"
+        android:id="@+id/update_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="47dp"
-        android:hint="@string/enter_the_user_name_to_delete"
+        android:hint="@string/enter_the_user_name_to_update"
         android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/delete"
+        android:id="@+id/update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/delete_text"
+        android:layout_below="@+id/update_text"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="13dp"
-        android:text="@string/delete" />
+        android:text="@string/update" />
 </RelativeLayout>

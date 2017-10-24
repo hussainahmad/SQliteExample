@@ -12,7 +12,7 @@ import android.widget.TextView
  * hussain.ahmed@progos.org
  * on 10/23/2017.
  */
-class ViewAdapter(val list:ArrayList<User>): RecyclerView.Adapter<ViewAdapter.ViewHolder>() {
+class ViewAdapter(val list: ArrayList<User>) : RecyclerView.Adapter<ViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.row_layout, parent, false)
@@ -29,8 +29,8 @@ class ViewAdapter(val list:ArrayList<User>): RecyclerView.Adapter<ViewAdapter.Vi
         return list.size
     }
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        fun bindItems(data : User){
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun bindItems(data: User) {
             val name: TextView = itemView.findViewById(R.id.name)
             val password: TextView = itemView.findViewById(R.id.password)
             val email: TextView = itemView.findViewById(R.id.email)

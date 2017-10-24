@@ -19,7 +19,8 @@
         <activity android:name=".SignUp" />
         <activity android:name=".ViewUser" />
         <activity android:name=".DeleteUser" />
-        <activity android:name=".SearchUser"></activity>
+        <activity android:name=".SearchUser" />
+        <activity android:name=".UpdateActivity"></activity>
     </application>
 
 </manifest>

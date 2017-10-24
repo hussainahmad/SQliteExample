@@ -14,7 +14,7 @@ import org.jetbrains.anko.db.*
  */
 class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, DbHelper.DB_NAME, null, DbHelper.DB_VERSION) {
 
-//    companion object {
+    //    companion object {
 //        val Table_USER: String = "TABLE_USER"
 //        val ID:String = "ID_"
 //        val NAME: String = "NAME"
@@ -22,8 +22,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, DbHelper.DB_NAME, nu
 //        val EMAIL: String = "EMAIL"
 //    }
     companion object {
-    val DB_NAME = "user.db"
-    val DB_VERSION = 1
+        val DB_NAME = "user.db"
+        val DB_VERSION = 1
         private var instance: DbHelper? = null
         @Synchronized
         fun getInstance(ctx: Context): DbHelper {
@@ -45,11 +45,11 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, DbHelper.DB_NAME, nu
     override fun onCreate(db: SQLiteDatabase?) {
 
         db!!.createTable(User.Table_USER, true,
-                Pair(User.ID, INTEGER + PRIMARY_KEY + AUTOINCREMENT),
-//                User.ID to INTEGER + AUTOINCREMENT,
-                Pair(User.NAME, TEXT),
-                Pair(User.PASSWORD, TEXT),
-                Pair(User.EMAIL, TEXT))
+                User.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+                //                User.ID to INTEGER + AUTOINCREMENT,
+                User.NAME to TEXT + UNIQUE,
+                User.PASSWORD to TEXT,
+                User.EMAIL to TEXT)
 //        db.execSQL(CREATE_TABLE)
     }
 
@@ -66,6 +66,7 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, DbHelper.DB_NAME, nu
 
         db.insert(User.Table_USER, User.NAME to name, User.PASSWORD to password,
                 User.EMAIL to email)
+        // we can also use through Content values but here I am using upper defined method, but If you want through content valued it works perfectly
 //        val values = ContentValues()
 //        values.put(User.NAME, name)
 //        values.put(User.PASSWORD, password)
@@ -100,12 +101,13 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, DbHelper.DB_NAME, nu
         Log.i("DataBase Operation", "Selected Row deleted from Database")
     }
 
-    fun updateInformation(username: String, mobile: String, email: String, db: SQLiteDatabase) {
+    fun updateInformation(username: String, updated_name: String, mobile: String, email: String, db: SQLiteDatabase) {
 
         val selection = User.NAME + "=?"
         val selectionArguments = arrayOf(username)
         // New value for one column
         val values = ContentValues()
+        values.put(User.NAME, updated_name)
         values.put(User.PASSWORD, mobile)
         values.put(User.EMAIL, email)
         db.update(User.Table_USER, values, selection, selectionArguments)
