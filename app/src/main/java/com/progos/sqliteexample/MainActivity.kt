@@ -7,15 +7,20 @@ import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var addUser: Button
+    private lateinit var viewUser: Button
+    private lateinit var searchUser: Button
+    private lateinit var deleteUser: Button
+    private lateinit var updateUser: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val addUser: Button = findViewById<Button>(R.id.add_user)
-        val viewUser: Button = findViewById<Button>(R.id.view_user)
-        val searchUser: Button = findViewById<Button>(R.id.search_user)
-        val deleteUser: Button = findViewById<Button>(R.id.delete_user)
-        val updateUser: Button = findViewById<Button>(R.id.update)
+        addUser = findViewById<Button>(R.id.add_user)
+        viewUser = findViewById<Button>(R.id.view_user)
+        searchUser = findViewById<Button>(R.id.search_user)
+        deleteUser = findViewById<Button>(R.id.delete_user)
+        updateUser = findViewById<Button>(R.id.update)
 
         addUser.setOnClickListener {
             val intent = Intent(this@MainActivity, SignUp::class.java)

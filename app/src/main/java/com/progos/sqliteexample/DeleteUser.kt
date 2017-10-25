@@ -12,14 +12,18 @@ import android.widget.Toast
 
 class DeleteUser : AppCompatActivity() {
 
-    val Context.database: DbHelper
+    private val Context.database: DbHelper
         get() = DbHelper.getInstance(getApplicationContext())
+
+    private lateinit var name: EditText
+    private lateinit var delete: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_delete_user)
-        val name: EditText = findViewById<EditText>(R.id.delete_text)
-        val delete: Button = findViewById<Button>(R.id.delete)
+        name = findViewById<EditText>(R.id.delete_text)
+        delete = findViewById<Button>(R.id.delete)
+
         delete.setOnClickListener {
             val db = database.readableDatabase
             val name_s = name.text.toString()

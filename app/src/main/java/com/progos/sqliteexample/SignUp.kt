@@ -13,17 +13,22 @@ import android.widget.Toast
 
 class SignUp : AppCompatActivity() {
 
-    val Context.database: DbHelper
+    private val Context.database: DbHelper
         get() = DbHelper.getInstance(getApplicationContext())
+
+    private lateinit var name: EditText
+    private lateinit var password: EditText
+    private lateinit var email: EditText
+    private lateinit var save: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 //        userDbHelper = DbHelper(this)
-        val name: EditText = findViewById<EditText>(R.id.user_name)
-        val password: EditText = findViewById<EditText>(R.id.password)
-        val email: EditText = findViewById<EditText>(R.id.email)
-        val save = findViewById<Button>(R.id.add_user_save)
+        name = findViewById<EditText>(R.id.user_name)
+        password = findViewById<EditText>(R.id.password)
+        email = findViewById<EditText>(R.id.email)
+        save = findViewById<Button>(R.id.add_user_save)
 
         save.setOnClickListener {
             val name1 = name.text.toString()

@@ -11,15 +11,17 @@ import android.widget.LinearLayout
 
 class ViewUser : AppCompatActivity() {
 
-    var cursor: Cursor? = null
-    val Context.database: DbHelper
+    private var cursor: Cursor? = null
+    private val Context.database: DbHelper
         get() = DbHelper.getInstance(getApplicationContext())
+
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_user)
-        val mRecyclerView: RecyclerView = findViewById(R.id.recyclerview)
-        mRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        recyclerView = findViewById(R.id.recyclerview)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         val db = database.readableDatabase
         cursor = database.getInformation(db)
         val items = ArrayList<User>()
@@ -30,7 +32,7 @@ class ViewUser : AppCompatActivity() {
                 val email: String = cursor!!.getString(2)
                 items.add(User(name, mobile, email))
                 val adapter = ViewAdapter(items)
-                mRecyclerView.adapter = adapter
+                recyclerView.adapter = adapter
             } while (cursor!!.moveToNext())
         }
         cursor?.close()

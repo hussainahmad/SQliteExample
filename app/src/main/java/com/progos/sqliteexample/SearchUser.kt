@@ -15,19 +15,23 @@ import android.widget.Toast
 
 class SearchUser : AppCompatActivity() {
 
-    val Context.database: DbHelper
+    private val Context.database: DbHelper
         get() = DbHelper.getInstance(getApplicationContext())
-    var cursor: Cursor? = null
+    private var cursor: Cursor? = null
+
+    private lateinit var search_text: EditText
+    private lateinit var search: Button
+    private lateinit var mRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_user)
-        val search_text: EditText = findViewById<EditText>(R.id.editText)
+        search_text = findViewById<EditText>(R.id.editText)
 //        val name: TextView = findViewById<TextView>(R.id.name)
 //        val password: TextView = findViewById<TextView>(R.id.password)
 //        val email: TextView = findViewById<TextView>(R.id.email)
-        val search: Button = findViewById<Button>(R.id.button)
-        val mRecyclerView: RecyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        search = findViewById<Button>(R.id.button)
+        mRecyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         mRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
         search.setOnClickListener {

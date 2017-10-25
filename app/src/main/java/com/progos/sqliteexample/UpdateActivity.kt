@@ -11,14 +11,16 @@ import android.widget.EditText
 import android.widget.Toast
 
 class UpdateActivity : AppCompatActivity() {
-    val Context.database: DbHelper
+    private val Context.database: DbHelper
         get() = DbHelper.getInstance(getApplicationContext())
 
+    private lateinit var name: EditText
+    private lateinit var delete: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update)
-        val name: EditText = findViewById<EditText>(R.id.update_text)
-        val delete: Button = findViewById<Button>(R.id.update_button)
+        name = findViewById<EditText>(R.id.update_text)
+        delete = findViewById<Button>(R.id.update_button)
         delete.setOnClickListener {
             val db = database.readableDatabase
             val name_s = name.text.toString()

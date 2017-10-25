@@ -1,2 +1,2 @@
 # Sqlite Example Using Kotlin
-How to use SQLite Database with Kotlin witk Anko-sqliteLibrary
+How to use SQLite Database with Kotlin with Anko-sqliteLibrary

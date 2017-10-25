@@ -21,6 +21,10 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, DbHelper.DB_NAME, nu
 //        val PASSWORD:String = "PASSWORD"
 //        val EMAIL: String = "EMAIL"
 //    }
+//    Kotlin does not use Java concept of static,  because kotlin has its own concept of object
+//    As Java static part of a class can be elegantly expressed in terms of singleton: it's a singleton
+//    object that can be called , Apart from naming, it is more powerful than Java static members:
+//    it can extend classes and interfaces, and you can pass it around as any other objects.
     companion object {
         val DB_NAME = "user.db"
         val DB_VERSION = 1
@@ -42,6 +46,9 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, DbHelper.DB_NAME, nu
 //            "$EMAIL text" +
 //            ")"
 
+
+    //    As we know Kotlin is null safe language , to handel this Kotlin defined "?"
+//    to define nullable type we declare variable with ?
     override fun onCreate(db: SQLiteDatabase?) {
 
         db!!.createTable(User.Table_USER, true,
@@ -54,6 +61,7 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, DbHelper.DB_NAME, nu
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+//        As db is nullable type to initialize we add !! which means if db not equals to null
         db!!.dropTable(User.Table_USER, true)
         onCreate(db)
     }
